@@ -1,0 +1,17 @@
+Package: count_checker
+Type: Package
+Title: Check assemblage count sums and percent 
+Version: 0.0-1
+Date: 2018-03-27
+Depends: 
+Imports: dplyr
+Author: Richard J. Telford
+Maintainer: Richard J. Telford <richard.telford@uib.no>
+Description: Check reported count sums and percent in assemblage data
+License: GPL-3
+ByteCompile: true
+RemoteType: github
+RemoteHost: https://api.github.com
+RemoteRepo: count_checker
+RemoteUsername: richardjtelford
+RemoteRef: master
