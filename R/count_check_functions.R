@@ -1,8 +1,19 @@
+#' Percent checker
 #' @description check percent in species file are plausible
 #' @param spp data.frame of species percent data, optionally with columns for site and count sum
 #' @param digits integer giving the precision of the percent data
 #' @param site_column character giving name of column with site/sample names. If missing uses rownames instead.
 #' @param count_column character giving name of column with count sums. If missing count sum is estimated from smallest percentage.
+#' @importFrom magrittr %>%
+#' @import dplyr
+#' @importFrom tidyr gather
+#' @importFrom tibble rowid_to_column
+#' @examples 
+#' require("dplyr")
+#' data(last_chance)
+#' last_chance <- select(last_chance0, -totcaps)
+#' percent_checker(spp = last_chance, digits = 2, site_column = "age_calBP")
+#' @export
 
 percent_checker <- function(spp, digits, site_column, count_column){
   if(missing(site_column)){
@@ -15,7 +26,7 @@ percent_checker <- function(spp, digits, site_column, count_column){
   
   if(missing(count_column)){
     spp2 <- spp %>% 
-      gather(key = species, value = percent, -site) %>% 
+      gather(key = "species", value = "percent", -site) %>% 
       filter(percent > 0) %>% 
       group_by(site) %>% 
       mutate(one = min(percent),
@@ -28,7 +39,7 @@ percent_checker <- function(spp, digits, site_column, count_column){
   } else {
     spp2 <- spp %>% 
       rename_(count_sum = count_column) %>% 
-      gather(key = species, value = percent, -site, -count_sum) %>% 
+      gather(key = "species", value = "percent", -site, -count_sum) %>% 
       filter(percent > 0) %>% 
       group_by(site) %>% 
       mutate(one = 100/count_sum,
@@ -60,10 +71,17 @@ percent_checker <- function(spp, digits, site_column, count_column){
     ungroup()
 }
 
+#' Count estimator
 #' @description Estimates count sums of species percent data
 #' @param spp data.frame of species percent data
 #' @param digits integer giving precision of species data
-#' 
+#' @importFrom dplyr data_frame
+#' @examples 
+#' require("dplyr")
+#' data(last_chance)
+#' last_chance <- select(last_chance0, -age_calBP, -totcaps)
+#' estimate_n(spp = last_chance, digits = 2)
+#' @export
 estimate_n <- function(spp, digits){
   minp <- function(x){min(x[x > 0])}
   data_frame(mn = apply(spp, 1, minp),
