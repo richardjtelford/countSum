@@ -64,7 +64,7 @@ estimate_n <- function(x, percent_col = "percent", taxon_col = "taxon", ID_cols,
         ~ summarise(.,
           est_n_minpc = 1 / min(.data$p),
           est_min_minpc = 1 / min(.data$p_max),
-          est_mex_minpc = 1 / min(.data$p_min),
+          est_max_minpc = 1 / min(.data$p_min),
           n_taxa = n()#richness
         )
       )
