@@ -8,6 +8,7 @@
 #' @import dplyr
 #' @importFrom tidyr gather
 #' @importFrom tibble rowid_to_column
+#' @importFrom rlang .data
 #' @examples 
 #' require("dplyr")
 #' data(last_chance)
@@ -26,32 +27,32 @@ percent_checker <- function(spp, digits, site_column, count_column){
   
   if(missing(count_column)){
     spp2 <- spp %>% 
-      gather(key = "species", value = "percent", -site) %>% 
-      filter(percent > 0) %>% 
-      group_by(site) %>% 
-      mutate(one = min(percent),
-             one_max = one + 0.5 * 10 ^ -digits,
-             one_min = one - 0.5 * 10 ^ -digits,
-             est_n = 100/one,
-             est_min = 100/one_max,
-             est_max = 100/one_min
+      gather(key = "species", value = "percent", -.data$site) %>% 
+      filter(.data$percent > 0) %>% 
+      group_by(.data$site) %>% 
+      mutate(one = min(.data$percent),
+             one_max = .data$one + 0.5 * 10 ^ -digits,
+             one_min = .data$one - 0.5 * 10 ^ -digits,
+             est_n = 100/.data$one,
+             est_min = 100/.data$one_max,
+             est_max = 100/.data$one_min
       )
   } else {
     spp2 <- spp %>% 
       rename_(count_sum = count_column) %>% 
-      gather(key = "species", value = "percent", -site, -count_sum) %>% 
-      filter(percent > 0) %>% 
-      group_by(site) %>% 
-      mutate(one = 100/count_sum,
-             one_max = one,
-             one_min = one)
+      gather(key = "species", value = "percent", -.data$site, -.data$count_sum) %>% 
+      filter(.data$percent > 0) %>% 
+      group_by(.data$site) %>% 
+      mutate(one = 100/.data$count_sum,
+             one_max = .data$one,
+             one_min = .data$one)
   }
   
   spp2 %>% 
     mutate(
-      count_est = percent/one,
-      count_min = (percent - 0.5 * 10 ^ -digits)/(one_max),
-      count_max = (percent + 0.5 * 10 ^ -digits)/(one_min)
+      count_est = .data$percent/.data$one,
+      count_min = (.data$percent - 0.5 * 10 ^ -digits)/(.data$one_max),
+      count_max = (.data$percent + 0.5 * 10 ^ -digits)/(.data$one_min)
     ) %>%  
     mutate(
       precision = case_when(
@@ -66,27 +67,27 @@ percent_checker <- function(spp, digits, site_column, count_column){
         floor(count_min - 0.5) < floor(count_max - 0.5) ~ "?half",
         TRUE ~ "weird"
       ),
-      precision = factor(precision, levels = c("very high", "high", "moderate", "low", "none"), ordered = TRUE)
+      precision = factor(.data$precision, levels = c("very high", "high", "moderate", "low", "none"), ordered = TRUE)
     ) %>% 
     ungroup()
 }
 
-#' Count estimator
-#' @description Estimates count sums of species percent data
-#' @param spp data.frame of species percent data
-#' @param digits integer giving precision of species data
-#' @importFrom dplyr data_frame
-#' @examples 
-#' require("dplyr")
-#' data(last_chance)
-#' last_chance <- select(last_chance0, -age_calBP, -totcaps)
-#' estimate_n(spp = last_chance, digits = 2)
-#' @export
-estimate_n <- function(spp, digits){
-  minp <- function(x){min(x[x > 0])}
-  data_frame(mn = apply(spp, 1, minp),
-             est_n = 100 / mn,
-             est_min = 100 / (mn + 0.5 * 10 ^ -digits),
-             est_max = 100 / (mn - 0.5 * 10 ^ -digits)
-  )
-}
+#' #' Count estimator
+#' #' @description Estimates count sums of species percent data
+#' #' @param spp data.frame of species percent data
+#' #' @param digits integer giving precision of species data
+#' #' @importFrom dplyr data_frame
+#' #' @examples 
+#' #' require("dplyr")
+#' #' data(last_chance)
+#' #' last_chance <- select(last_chance0, -age_calBP, -totcaps)
+#' #' estimate_n(spp = last_chance, digits = 2)
+#' #' @export
+#' estimate_n <- function(spp, digits){
+#'   minp <- function(x){min(x[x > 0])}
+#'   data_frame(mn = apply(spp, 1, minp),
+#'              est_n = 100 / mn,
+#'              est_min = 100 / (mn + 0.5 * 10 ^ -digits),
+#'              est_max = 100 / (mn - 0.5 * 10 ^ -digits)
+#'   )
+#' }
