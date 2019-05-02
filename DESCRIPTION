@@ -1,4 +1,4 @@
-Package: countChecker
+Package: countSum
 Type: Package
 Title: Check assemblage count sums and percent 
 Version: 0.0-2
