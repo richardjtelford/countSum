@@ -39,7 +39,10 @@ estimate_n <- function(x, percent_col = "percent", taxon_col = "taxon", ID_cols,
       low <- nmin:nmax %*% t(.$p_min)
       high <- nmin:nmax %*% t(.$p_max)
       .taxon <- .$.taxon
-      inc_integer <- (floor(low) != floor(high)) %>% 
+      inc_integer <- (
+        floor(low) != floor(high) | #span includes integer
+        abs(low - round(low)) < sqrt(.Machine$double.eps)#catch case where low is exact integer (within tolerance)
+       ) %>% 
         as.data.frame() %>% 
         set_names(.taxon) %>% 
         mutate(
