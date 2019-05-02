@@ -1,4 +1,4 @@
-Package: countChecker
+Package: countSum
 Type: Package
 Title: Check assemblage count sums and percent 
 Version: 0.0-2
@@ -13,7 +13,7 @@ License: GPL-3
 ByteCompile: true
 RemoteType: github
 RemoteHost: https://api.github.com
-RemoteRepo: count_checker
+RemoteRepo: countSum
 RemoteUsername: richardjtelford
 RemoteRef: master
 RoxygenNote: 6.0.1
