@@ -40,13 +40,16 @@
 #'@importFrom utils data
 #'@importFrom assertr assert in_set just_warn within_bounds
 #'@export
-estimate_n <- function(x, percent_col = "percent", taxon_col = "taxon", ID_cols, digits = 2, nmin = 1L, nmax = 1000L){
+estimate_n <- function(x, percent_col = "percent", taxon_col = "taxon",
+                       ID_cols, digits = 2, nmin = 1L, nmax = 1000L){
 
   digits <- digits + 2 #analyse proportions
   possible_n <- x %>% 
     rename(.percent = !!percent_col, .taxon = !!taxon_col) %>%
-    assert(within_bounds(0, 100), .data$.percent) %>% #check percent within 0- 100
-    filter(.data$.percent > 0) %>% #remove any 0 values - give Inf estimates
+    #check percent within 0- 100
+    assert(within_bounds(0, 100), .data$.percent) %>% 
+    #remove any 0 values - give Inf estimates
+    filter(.data$.percent > 0) %>% 
     mutate(
       p = .data$.percent / 100,
       p_min = .data$p - 0.5 * 10 ^ -digits,
@@ -60,8 +63,10 @@ estimate_n <- function(x, percent_col = "percent", taxon_col = "taxon", ID_cols,
       high <- nmin:nmax %*% t(.$p_max)
       .taxon <- .$.taxon
       inc_integer <- (
-        floor(low) != floor(high) | #span includes integer
-        abs(low - round(low)) < sqrt(.Machine$double.eps)#catch case where low is exact integer (within tolerance)
+        #span includes integer
+        floor(low) != floor(high) | 
+        #catch case where low is exact integer (within tolerance)  
+        abs(low - round(low)) < sqrt(.Machine$double.eps)
        ) %>% 
         as.data.frame() %>% 
         set_names(.taxon) %>% 

@@ -1,10 +1,11 @@
 Package: countSum
 Type: Package
 Title: Check assemblage count sums and percent 
-Version: 0.0-3
-Date: 2019-04-22
+Version: 0.0-31
 Author: Richard J. Telford
 Maintainer: Richard J. Telford <richard.telford@uib.no>
+URL: https://github.com/richardjtelford/countSum
+BugReports: https://github.com/richardjtelford/countSum/issues
 Description: Check reported count sums and percent in assemblage data.
 Imports: dplyr, tibble, tidyr, magrittr,
     purrr,

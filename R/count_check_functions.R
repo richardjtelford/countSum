@@ -40,7 +40,9 @@ percent_checker <- function(spp, digits, site_column, count_column){
   } else {
     spp2 <- spp %>% 
       rename_(count_sum = count_column) %>% 
-      gather(key = "species", value = "percent", -.data$site, -.data$count_sum) %>% 
+      gather(key = "species",
+             value = "percent",
+             -.data$site, -.data$count_sum) %>% 
       filter(.data$percent > 0) %>% 
       group_by(.data$site) %>% 
       mutate(one = 100/.data$count_sum,
@@ -67,7 +69,10 @@ percent_checker <- function(spp, digits, site_column, count_column){
         floor(count_min - 0.5) < floor(count_max - 0.5) ~ "?half",
         TRUE ~ "weird"
       ),
-      precision = factor(.data$precision, levels = c("very high", "high", "moderate", "low", "none"), ordered = TRUE)
+      precision = factor(
+        x = .data$precision, 
+        levels = c("very high", "high", "moderate", "low", "none"), 
+        ordered = TRUE)
     ) %>% 
     ungroup()
 }
