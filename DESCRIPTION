@@ -19,3 +19,4 @@ RemoteRepo: countSum
 RemoteUsername: richardjtelford
 RemoteRef: master
 RoxygenNote: 6.0.1
+Suggests: testthat
