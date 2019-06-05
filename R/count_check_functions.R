@@ -10,9 +10,8 @@
 #' @importFrom tibble rowid_to_column
 #' @importFrom rlang .data
 #' @examples 
-#' require("dplyr")
 #' data(last_chance)
-#' last_chance <- select(last_chance0, -totcaps)
+#' last_chance <- dplyr::select(last_chance0, -totcaps)
 #' percent_checker(spp = last_chance, digits = 2, site_column = "age_calBP")
 #' @export
 
