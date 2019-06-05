@@ -83,8 +83,7 @@ estimate_n <- function(x, percent_col = "percent", taxon_col = "taxon",
         .data$direct_search, 
         ~slice(., which.max(score):n()) %>% 
           slice(1:(which.min(score == max(score)) - 1)) %>% 
-          select(est_n_direct = n, score) %>% 
-          assert(in_set(1), score, error_fun = just_warn)
+          select(est_n_direct = n, score) 
           ),
       
       #minimum percent method
@@ -102,6 +101,12 @@ estimate_n <- function(x, percent_col = "percent", taxon_col = "taxon",
     ) %>% 
     unnest(.data$minimum_percent)
 
+  #check scores == 1
+  possible_n %>% 
+    unnest(.data$direct_search_est) %>% 
+    ungroup() %>% 
+    assert(in_set(1), .data$score, error_fun = just_warn)
+  
   return(possible_n)
 }
 
