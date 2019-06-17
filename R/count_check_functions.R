@@ -75,23 +75,3 @@ percent_checker <- function(spp, digits, site_column, count_column){
     ) %>% 
     ungroup()
 }
-
-#' #' Count estimator
-#' #' @description Estimates count sums of species percent data
-#' #' @param spp data.frame of species percent data
-#' #' @param digits integer giving precision of species data
-#' #' @importFrom dplyr data_frame
-#' #' @examples 
-#' #' require("dplyr")
-#' #' data(last_chance)
-#' #' last_chance <- select(last_chance0, -age_calBP, -totcaps)
-#' #' estimate_n(spp = last_chance, digits = 2)
-#' #' @export
-#' estimate_n <- function(spp, digits){
-#'   minp <- function(x){min(x[x > 0])}
-#'   data_frame(mn = apply(spp, 1, minp),
-#'              est_n = 100 / mn,
-#'              est_min = 100 / (mn + 0.5 * 10 ^ -digits),
-#'              est_max = 100 / (mn - 0.5 * 10 ^ -digits)
-#'   )
-#' }
