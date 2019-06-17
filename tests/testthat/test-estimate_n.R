@@ -20,7 +20,7 @@ test_that("Warning when no solution within range n_min:n_max", {
       percent = count/sum(count) * 100, 
       percent = floor(percent * 100)/100 #floor rather than round
     )
-  #  expect_output(estimate_n(df, ID_cols = "ID"), "Column 'score' violates assertion")
+   expect_output(suppressWarnings(estimate_n(df, ID_cols = "ID")), "Column 'score' violates assertion")
    expect_warning(estimate_n(df, ID_cols = "ID"))
   
     expect_lt(suppressWarnings(estimate_n(df, ID_cols = "ID")) %>% 
