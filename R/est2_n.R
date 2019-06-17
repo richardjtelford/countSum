@@ -32,7 +32,7 @@
 #'   tidyr::gather(key = taxon, value = percent, -age_calBP, -totcaps) %>% 
 #'   estimate_n(digits = 2, ID_cols = c("age_calBP", "totcaps"))
 #' 
-#'@importFrom dplyr rename mutate group_by_at vars one_of n slice summarise
+#'@importFrom dplyr rename mutate group_by_at vars one_of n slice summarise select
 #'@importFrom tidyr nest unnest
 #'@importFrom purrr map
 #'@importFrom magrittr %>%

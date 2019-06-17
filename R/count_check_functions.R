@@ -5,7 +5,7 @@
 #' @param site_column character giving name of column with site/sample names. If missing uses rownames instead.
 #' @param count_column character giving name of column with count sums. If missing count sum is estimated from smallest percentage.
 #' @importFrom magrittr %>%
-#' @import dplyr
+#' @importFrom dplyr rename_ filter group_by mutate case_when ungroup
 #' @importFrom tidyr gather
 #' @importFrom tibble rowid_to_column
 #' @importFrom rlang .data
