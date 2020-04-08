@@ -18,5 +18,6 @@ RemoteHost: https://api.github.com
 RemoteRepo: countSum
 RemoteUsername: richardjtelford
 RemoteRef: master
-RoxygenNote: 6.0.1
+RoxygenNote: 7.0.2
 Suggests: testthat
+Encoding: UTF-8
