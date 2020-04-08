@@ -4,8 +4,15 @@
 \alias{estimate_n}
 \title{Estimate count sum}
 \usage{
-estimate_n(x, percent_col = "percent", taxon_col = "taxon", ID_cols,
-  digits = 2, nmin = 1L, nmax = 1000L)
+estimate_n(
+  x,
+  percent_col = "percent",
+  taxon_col = "taxon",
+  ID_cols,
+  digits = 2,
+  nmin = 1L,
+  nmax = 1000L
+)
 }
 \arguments{
 \item{x}{data.frame of percent data in long format}
@@ -47,7 +54,7 @@ The second estimate is the value N within the range nmin:nmax for which all p/10
 require("dplyr")
 data(last_chance)
 last_chance0  \%>\% 
-  tidyr::gather(key = taxon, value = percent, -age_calBP, -totcaps) \%>\% 
+  tidyr::pivot_longer(cols = -c(age_calBP, totcaps), names_to = "taxon", values_to = "percent") \%>\% 
   estimate_n(digits = 2, ID_cols = c("age_calBP", "totcaps"))
 
 }
