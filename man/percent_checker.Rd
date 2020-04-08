@@ -16,7 +16,7 @@ percent_checker(spp, digits, site_column, count_column)
 \item{count_column}{character giving name of column with count sums. If missing count sum is estimated from smallest percentage.}
 }
 \description{
-check percent in species file are plausible
+check percent in species data are plausible
 }
 \examples{
 data(last_chance)

@@ -1,11 +1,11 @@
 #' Percent checker
-#' @description check percent in species file are plausible
+#' @description check percent in species data are plausible
 #' @param spp data.frame of species percent data, optionally with columns for site and count sum
 #' @param digits integer giving the precision of the percent data
 #' @param site_column character giving name of column with site/sample names. If missing uses rownames instead.
 #' @param count_column character giving name of column with count sums. If missing count sum is estimated from smallest percentage.
 #' @importFrom magrittr %>%
-#' @importFrom dplyr rename_ filter group_by mutate case_when ungroup
+#' @importFrom dplyr rename filter group_by mutate case_when ungroup
 #' @importFrom tidyr gather
 #' @importFrom tibble rowid_to_column
 #' @importFrom rlang .data
@@ -21,7 +21,7 @@ percent_checker <- function(spp, digits, site_column, count_column){
       rowid_to_column(var = "site")
   } else {
     spp <- spp %>% 
-      rename_(site = site_column)
+      rename(site = !!site_column)
   }
   
   if(missing(count_column)){
@@ -38,7 +38,7 @@ percent_checker <- function(spp, digits, site_column, count_column){
       )
   } else {
     spp2 <- spp %>% 
-      rename_(count_sum = count_column) %>% 
+      rename(count_sum = !!count_column) %>% 
       gather(key = "species",
              value = "percent",
              -.data$site, -.data$count_sum) %>% 
