@@ -29,7 +29,7 @@
 #'require("dplyr")
 #' data(last_chance)
 #' last_chance0  %>% 
-#'   tidyr::gather(key = taxon, value = percent, -age_calBP, -totcaps) %>% 
+#'   tidyr::pivot_longer(cols = -c(age_calBP, totcaps), names_to = "taxon", values_to = "percent") %>% 
 #'   estimate_n(digits = 2, ID_cols = c("age_calBP", "totcaps"))
 #' 
 #'@importFrom dplyr rename mutate group_by_at vars one_of n slice summarise select
@@ -40,6 +40,7 @@
 #'@importFrom utils data
 #'@importFrom assertr assert in_set just_warn within_bounds
 #'@export
+
 estimate_n <- function(x, percent_col = "percent", taxon_col = "taxon",
                        ID_cols, digits = 2, nmin = 1L, nmax = 1000L){
 
@@ -59,9 +60,9 @@ estimate_n <- function(x, percent_col = "percent", taxon_col = "taxon",
     nest() %>% 
     mutate(direct_search = map(.data$data, ~{
       #direct search
-      low <- nmin:nmax %*% t(.$p_min)
-      high <- nmin:nmax %*% t(.$p_max)
-      .taxon <- .$.taxon
+      low <- nmin:nmax %*% t(.x$p_min)
+      high <- nmin:nmax %*% t(.x$p_max)
+      .taxon <- .x$.taxon
       inc_integer <- (
         #span includes integer
         floor(low) != floor(high) | 
@@ -81,7 +82,7 @@ estimate_n <- function(x, percent_col = "percent", taxon_col = "taxon",
       #summarise direct_search
       direct_search_est = map(
         .data$direct_search, 
-        ~slice(., which.max(score):n()) %>% 
+        ~slice(.x, which.max(score):n()) %>% 
           slice(1:(which.min(score == max(score)) - 1)) %>% 
           select(est_n_direct = n, score) 
           ),
