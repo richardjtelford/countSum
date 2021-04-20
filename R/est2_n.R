@@ -6,10 +6,10 @@
 #'@param ID_cols character vector giving name of one or more columns with sample IDs
 #'@param digits numeric; how many decimal places are the percent reported to
 #'@param nmin integer; possible count sum to start direct search at
-#'@param nmax integer; possible count sum to end direct seach at
+#'@param nmax integer; possible count sum to end direct search at
 #'
 #'@details Estimates the count sum with two methods.
-#' The first estimate is 100/p_min where p_min is the mimumum percent.
+#' The first estimate is 100/p_min where p_min is the minimum percent.
 #' The second estimate is the value N within the range nmin:nmax for which all p/100 * N is an integer for all percent p. The proportion of taxa for which this is an integer is given by the score. A warning is given if the score is below 1. This can happen nmax is less than the count sum, or if the percent have been incorrectly calculated (perhaps an error in rounding.
 #' 
 #'  @return A nested tibble
@@ -21,10 +21,10 @@
 #'   \item minpc - the minimum percentage for each assemblage
 #'   \item est_n_minpc estimate count sum for the minimum percent method
 #'   \item est_min_minpc - lowest possible count sum given precision of the percentage data 
-#'   \item est_max_minpc - ditto for hightest possible count sum
+#'   \item est_max_minpc - ditto for highest possible count sum
 #'   \item n_taxa - number of taxa
 #' } 
-#'@references Telford (2019) Tools for identifying unexpectely low microfossil count sums. Preprint. 
+#'@references Telford (2019) Tools for identifying unexpectedly low microfossil count sums. Preprint. 
 #'@examples 
 #'require("dplyr")
 #' data(last_chance)
