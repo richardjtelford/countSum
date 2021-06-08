@@ -45,6 +45,6 @@ test_that("rounding error", {
   df <- tibble::tibble(taxon = letters[1:3], ID = 1, percent = c(1, 5, 19) / n * 100) %>% 
     mutate(percent = round(percent, 2))
   res <- estimate_n(df, ID_cols = "ID", digits = 2)
-  est <- res %>% unnest(cols = direct_search_est) %>% pull(est_n_direct)
+  est <- res %>% unnest(cols = direct_search_est) %>% dplyr::pull(est_n_direct)
   expect_equal(est, n)
 })
