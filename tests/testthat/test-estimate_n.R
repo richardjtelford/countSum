@@ -39,3 +39,12 @@ test_that("error with percent out of bounds 0-100", {
   expect_error(estimate_n(df, ID_cols = "ID"))
 })
 
+
+test_that("rounding error", {
+  n <- 160 #true count sum
+  df <- tibble::tibble(taxon = letters[1:3], ID = 1, percent = c(1, 5, 19) / n * 100) %>% 
+    mutate(percent = round(percent, 2))
+  res <- estimate_n(df, ID_cols = "ID", digits = 2)
+  est <- res %>% unnest(cols = direct_search_est) %>% pull(est_n_direct)
+  expect_equal(est, n)
+})
