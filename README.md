@@ -1,11 +1,27 @@
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
 # countSum
 
-Community and assemblage data are unfortunately often presented as percentages rather than the original counts. Since the count sum is an important quality control disgnostic, it is useful be able to estimate it. This R package estimates the count sum for percentage data.
+<!-- badges: start -->
 
-Install with 
-  
-```
-devtools::install_github("richardjtelford/countSum")
-```
+[![R-CMD-check](https://github.com/richardjtelford/countSum/workflows/R-CMD-check/badge.svg)](https://github.com/richardjtelford/countSum/actions)
+<!-- badges: end -->
 
-A discussion of the method can be found in a preprint at https://github.com/richardjtelford/count.check.ms
+Community and assemblage data are unfortunately often presented as
+percentages rather than the original counts. Since the count sum is an
+important quality control diagnostic, it is useful be able to estimate
+it. The `countSum` package estimates the count sum for percentage data.
+
+A discussion of the method can be found in a preprint at
+<https://github.com/richardjtelford/count.check.ms>
+
+## Installation
+
+You can install the development version of `countSum` from
+[GitHub](https://github.com/) with:
+
+``` r
+# install.packages("remotes")
+remotes::install_github("richardjtelford/countSum")
+```
