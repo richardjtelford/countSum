@@ -10,7 +10,7 @@
 #'
 #'@details Estimates the count sum with two methods.
 #' The first estimate is 100/p_min where p_min is the minimum percent.
-#' The second estimate is the value N within the range nmin:nmax for which all p/100 * N is an integer for all percent p. The proportion of taxa for which this is an integer is given by the score. A warning is given if the score is below 1. This can happen nmax is less than the count sum, or if the percent have been incorrectly calculated (perhaps an error in rounding.
+#' The second estimate is the value N within the range nmin:nmax for which all p/100 * N is an integer for all percent p. The proportion of taxa for which this is an integer is given by the score. A warning is given if the score is below 1. This can happen nmax is less than the count sum, or if the percent have been incorrectly calculated (perhaps an error in rounding) or percent are calculated from different count sums for different taxa (eg. upland trees shrubs and herbs vs aquatics).
 #' 
 #'  @return A nested tibble
 #'  #' \itemize{
@@ -108,6 +108,7 @@ estimate_n <- function(x, percent_col = "percent", taxon_col = "taxon",
     ungroup() %>% 
     assert(in_set(1), .data$score, error_fun = just_warn)
   
+  class(possible_n) <- c("possible_n", class(possible_n))
   return(possible_n)
 }
 

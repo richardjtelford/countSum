@@ -7,10 +7,15 @@ Maintainer: Richard J. Telford <richard.telford@uib.no>
 URL: https://github.com/richardjtelford/countSum
 BugReports: https://github.com/richardjtelford/countSum/issues
 Description: Check reported count sums and percent in assemblage data.
-Imports: dplyr, tibble, tidyr, magrittr,
+Imports: 
+    dplyr,
+    tibble,
+    tidyr,
+    magrittr,
     purrr,
     rlang,
-    assertr
+    assertr,
+    ggplot2
 License: GPL-3
 ByteCompile: true
 RemoteType: github
@@ -18,6 +23,6 @@ RemoteHost: https://api.github.com
 RemoteRepo: countSum
 RemoteUsername: richardjtelford
 RemoteRef: master
-RoxygenNote: 7.0.2
+RoxygenNote: 7.1.1
 Suggests: testthat
 Encoding: UTF-8

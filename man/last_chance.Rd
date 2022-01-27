@@ -5,13 +5,15 @@
 \alias{last_chance}
 \alias{last_chance0}
 \title{Chironomid assemblages from Last Chance Lake.}
-\format{A data frame with 22 rows and 28 variables:
+\format{
+A data frame with 22 rows and 28 variables:
 \describe{
   \item{age_calBP}{Sample age}
   \item{totcaps}{Count sum}
   \item{Corynon}{First species}
   ...
-}}
+}
+}
 \source{
 \url{https://www.ncdc.noaa.gov/paleo-search/study/22091}
 }
