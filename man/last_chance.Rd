@@ -8,10 +8,10 @@
 \format{
 A data frame with 22 rows and 28 variables:
 \describe{
-  \item{age_calBP}{Sample age}
-  \item{totcaps}{Count sum}
-  \item{Corynon}{First species}
-  ...
+\item{age_calBP}{Sample age}
+\item{totcaps}{Count sum}
+\item{Corynon}{First species}
+...
 }
 }
 \source{

@@ -1,5 +1,5 @@
 #' Autoplot estimate count sum
-#'@description Estimate count sum from percent data
+#'@description Plots the direct search attempt to estimate the count sum from percent data
 #'
 #'@param x output of estimate count sum
 #'@param row integer giving name of row with sample to plot
@@ -10,6 +10,19 @@
 #' need to be concordant with count sum.
 #'@param by_taxa logical giving name of column with taxon names
 #'@param show_score logical. Show scores instead of main plot
+#'
+#'@details With `show_score == TRUE`, a plot of the proportion of taxa with percent
+#'abundances concordant with each count sum is shown.
+#'With `by_taxa == TRUE`, shows a plot of with taxa have percent abundances
+#'concordant with each count sum.
+#'With a wide range of possible count sums, the lines drawn become thinner
+#'than screen resolution, so use the `n_lim` option to avoid this.
+#'With `by_taxa == FALSE`, taxa with the same abundance are grouped together.
+#'A horizontal line is drawn at each putative count sum where the proportion
+#'of concordant taxa is `> threshold`. 
+#'Small `x` are plotted for non-concordant taxa when `threshold < 1`.
+#'This is probably the most useful plot. 
+#'
 #'@return ggplot object.
 #'@references Telford (2019) Tools for identifying unexpectedly low
 #' microfossil count sums. Preprint.
@@ -24,7 +37,7 @@
 #'autoplot(last_chance_est, row = 10, by_taxa = FALSE)
 #'autoplot(last_chance_est, row = 10, show_score = TRUE)
 #'
-#'@importFrom dplyr mutate n slice select filter left_join if_else
+#'@importFrom dplyr mutate n slice select filter left_join if_else distinct ungroup
 #'@importFrom tidyr unnest pivot_longer
 #'@importFrom purrr map
 #'@importFrom magrittr %>%
@@ -89,9 +102,15 @@ autoplot.possible_n <- function(x, row = 1, threshold = 1, n_lim,
       p1 <- ggplot(dat1_percent %>% filter(.data$value),
                    aes(x = .data$.percent, y = .data$n,
                        colour = .data$.n_same)) +
+        # add lines for each n with proportion concordant taxa > threshold
         geom_hline(aes(yintercept = .data$n),
-                   data = dat1_percent %>% filter(.data$score >= threshold)) +
+                   data = dat1_percent %>% 
+                     filter(.data$score >= threshold) |> 
+                     ungroup() |> 
+                     distinct(.data$n)) +
+        # add concordant taxa
         geom_point() +
+        # add x for non-concordant taxa
         geom_point(data = dat1_percent %>%
                      filter(is.na(.data$value), .data$score > threshold),
                    shape = 3) +

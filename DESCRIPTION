@@ -24,5 +24,6 @@ RemoteRepo: countSum
 RemoteUsername: richardjtelford
 RemoteRef: master
 RoxygenNote: 7.1.1
+Roxygen: list(markdown = TRUE)
 Suggests: testthat
 Encoding: UTF-8

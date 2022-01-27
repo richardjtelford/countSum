@@ -26,7 +26,20 @@ as lines may fail to show because of screen resolution.}
 ggplot object.
 }
 \description{
-Estimate count sum from percent data
+Plots the direct search attempt to estimate the count sum from percent data
+}
+\details{
+With \code{show_score == TRUE}, a plot of the proportion of taxa with percent
+abundances concordant with each count sum is shown.
+With \code{by_taxa == TRUE}, shows a plot of with taxa have percent abundances
+concordant with each count sum.
+With a wide range of possible count sums, the lines drawn become thinner
+than screen resolution, so use the \code{n_lim} option to avoid this.
+With \code{by_taxa == FALSE}, taxa with the same abundance are grouped together.
+A horizontal line is drawn at each putative count sum where the proportion
+of concordant taxa is \verb{> threshold}.
+Small \code{x} are plotted for non-concordant taxa when \code{threshold < 1}.
+This is probably the most useful plot.
 }
 \examples{
 require("dplyr")
